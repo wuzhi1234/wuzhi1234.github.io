@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《程序员的职业素养》的读书心得 | SimpleCoder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="花了几天将《程序员的职业素养》一书看完，还是颇多感触的，之前没有完整读过一本写给程序员的非编程书籍，在这次阅读中开拓了很多眼界。敏捷、测试驱动开发、版本迭代等等都和我们在平时在工作用到的思想一致。">
+<meta name="keywords" content="程序员,编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《程序员的职业素养》的读书心得">
+<meta property="og:url" content="http://gaojingbao.me/2016/07/21/《程序员的职业素养》的读书心得/index.html">
+<meta property="og:site_name" content="SimpleCoder">
+<meta property="og:description" content="花了几天将《程序员的职业素养》一书看完，还是颇多感触的，之前没有完整读过一本写给程序员的非编程书籍，在这次阅读中开拓了很多眼界。敏捷、测试驱动开发、版本迭代等等都和我们在平时在工作用到的思想一致。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-04T16:24:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《程序员的职业素养》的读书心得">
+<meta name="twitter:description" content="花了几天将《程序员的职业素养》一书看完，还是颇多感触的，之前没有完整读过一本写给程序员的非编程书籍，在这次阅读中开拓了很多眼界。敏捷、测试驱动开发、版本迭代等等都和我们在平时在工作用到的思想一致。">
+  
+    <link rel="alternative" href="/atom.xml" title="SimpleCoder" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">wuzhi1234</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="/site">常用网站</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                            
+                                <a class="fl douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hadoop/" style="font-size: 16.67px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mahout/" style="font-size: 10px;">Mahout</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/分享/" style="font-size: 10px;">分享</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/程序员/" style="font-size: 10px;">程序员</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/虚拟机/" style="font-size: 16.67px;">虚拟机</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">name</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一名银行IT程序员, 喜欢尝试新鲜的事物，爱折腾。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">wuzhi1234</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">wuzhi1234</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="/site">常用网站</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                    
+                        <a class="douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-《程序员的职业素养》的读书心得" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/21/《程序员的职业素养》的读书心得/" class="article-date">
+      <time datetime="2016-07-21T12:30:16.000Z" itemprop="datePublished">2016-07-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      《程序员的职业素养》的读书心得
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/笔记/">笔记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/程序员/">程序员</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编程/">编程</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>花了几天将《程序员的职业素养》一书看完，还是颇多感触的，之前没有完整读过一本写给程序员的非编程书籍，在这次阅读中开拓了很多眼界。敏捷、测试驱动开发、版本迭代等等都和我们在平时在工作用到的思想一致。<br><a id="more"></a></p>
+<h2 id="专业主义"><a href="#专业主义" class="headerlink" title="专业主义"></a>专业主义</h2><hr>
+<p>书中提到的“专业主义” 有很深的含义,它不但象征着荣誉与骄傲,而且明确意味着责任与义务。这两者密切相关,因为从你无法负责的事情上不可能获得荣誉与骄傲。这就是为什么我们要做专业的程序员的原因。作者在书中讲述了因为急于交付一个新版本，测试了绝大部分功能，但没有对其中的『例程』进行测试，最终造成生产事故的故事。所以不能为了速度而牺牲掉质量，质量是很重要的。</p>
+<p><strong>要对自己的不完美负责</strong>。代码中难免会出现bug,但这并不意味着你不用对它们负责;没人能写出完美的软件,但这并不表示你不用对不完美负责。所谓专业人士,就是能对自己犯下的错误负责的人,哪怕那些错误实际上在所难免。失误率永远不可能等于零, 但你有责任让它无限接近零。但是有些代码不是很难测试吗?是的,但<strong>之所以很难测试,是因为设计时就没考虑如何测试</strong>。唯一的解决办法就是要设计易于测试的代码,最好是先写测试, 再写要测的代码。</p>
+<p>描述如何创建灵活可维护的结构的软件设计原则和模式已经有许多了。专业的软件开发人员会牢记这些原则和模式,并在开发软件时认真遵循。但是其中有一条实在是没几个软件开发人员会认真照做,那就是,如果你希望自己的软件灵活可变,那就应该时常修改它!</p>
+<p><strong>要想证明软件易于修改,唯一办法就是做些实际的修改。</strong>如果发现这些改动并不像你预想的那样简单,你便应该改进设计,使后续修改变简单。这完全与大多数人对软件的理解相反。他们认为对可工作软件不断地做一系 列修改是危险的。错!让软件保持固定不变才是危险的!如果一直不重构代码, 等到最后不得不重构时,你就会发现代码已经“ 僵化了”。</p>
+<h2 id="职业道德"><a href="#职业道德" class="headerlink" title="职业道德"></a>职业道德</h2><hr>
+<p>职业发展是你自己的事。雇主没有义务确保你在职场能够立于不败之地,也没义务培训你,送你参加各种会议或给你买各种书籍充电。这些都是你自己的事。将自己的职业发展寄希望于雇主的软件开发人员将会很惨。<strong>应该计划每周工作60小时。前40小时是给雇主的,后20小时是给自己的。在这剩余的20小时里,你应该看书、练习、学习,或者做其他能提升职业能力的事情。</strong><br>别忘了桑塔亚纳的诅咒:“ 不能铭记过去的人,注定重蹈先人的覆辙。” 下面列出了每个专业软件开发人员必须精通的事项。</p>
+<ul>
+<li>设计模式。必须能描述 GOF 书中的全部 24 种模式,同时还要有 POSA 书中的多数模式的实战经验。</li>
+<li>设计原则。必须了解 SOLID 原则,而且要深刻理解组件设计原则。</li>
+<li>方法。必须理解 XP、Scrum、精益、看板、瀑布、结构化分析及结构化设计等。</li>
+<li>实践。必须掌握测试驱动开发、面向对象设计、结构化编程、持续集成和结对编程。</li>
+<li>工件。必须了解如何使用 UML 图、DFD 图、 结构图、Petri 网络图、状态迁移图表、流程图和决策表。</li>
+</ul>
+<p><strong>读书,看相关文章,关注博客和微博,参加技术大会,访问用户群,多参与 读书与学习小组。不懂就学,不要畏难。如果你是.NET 程序员,就去学学 Java; 如果你是 Java 程序员,就去学学 Ruby;如果你是 C 语言程序员,就去学学 Lisp; 如果你真想练练脑子,就去学学 Prolog 和 Forth 吧!</strong></p>
+<h2 id="说『不』和说『是』的重要性"><a href="#说『不』和说『是』的重要性" class="headerlink" title="说『不』和说『是』的重要性"></a>说『不』和说『是』的重要性</h2><hr>
+<p>『能就是能，不能就是不能，不要说『试试看』』–尤达</p>
+<p>领导过于压迫，而布置一些难以完成的任务，都被程序员应付下来了。然而专业的人士敢于说明真相而不屈从与权势，专业人士有勇气对他们的经理说『不』。要做出艰难决定时，存在对抗角色间的冲突于此是最为有利的。在作者介绍的例子中，经理和开发者对于开发时间的问题，有了自己角度的争论和对抗，双方都表现的很专业，对话中稍显冲突，也有片刻的不愉快发生，但双方坚持追求的目标不能完美切合时，这是比较理想的情况。最要说『不』的是那些高风险的关键时刻。越是关键时刻，『不』字就越具有价值。</p>
+<p>真正有团队精神的人，会为团队争取时间和利益，而不是带来一堆负担</p>
+<p>当我们说『是』的时候，做出承诺，包含三个步骤</p>
+<ol>
+<li>口头上说自己将去做</li>
+<li>心里认真对待做出的承诺</li>
+<li>真正付诸行动</li>
+</ol>
+<p>在承诺做某事时，应当留意自己的用词，因为这些用词透露了我们对待承诺的认证程度。<br>真正的承诺时，你对自己将做某件事做了清晰的事实陈述，而且还明确说明了完成期限<br>之所以没成功，是因为我们寄希望与某某去做这件事。你只能承诺自己能完全掌控的事情。<br>之所以没成功，是因为我不太确信是否真能完成得了。即使目标无法完成，你仍能全力前进，离目标更近些。而弄清楚目标能否达成这件事，便是你可以采取的行动之一。<br>之所以没成功，是因为有些时候我真的无能为力。有些事情先前你可能没预料到，这很现实，但如果你希望自己能够不负众望，那就赶紧去调整别人对你的预期，越快越好！你越早向各利益相关方发出预警信号，整个团队就有可能抓住机会，中止并重新评估当前的活动，并决定是否采取些措施或做出些改变。</p>
+<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><hr>
+<p>要熟练掌握每项技艺，关键都是要具备『信心』和『出错感知』能力</p>
+<ol>
+<li>首先，代码必须能够正常工作。必须确保编写的代码忠实遵循解决方案，必须管理好解决方案的每一处细节，并且使语言、平台、现有架构以及当前系统的所有问题和平共处。</li>
+<li>代码必须能够帮你解决客户提出的问题。很多时候，客户提出的需求其实并没有真正解决他们自己的问题。有赖于你去发现这些问题并与客户交流，以确保代码能够满足客户的真实需求。</li>
+<li>代码必须与现有系统结合得天衣无缝。简而言之，<strong>编写代码时必须遵循稳健的工程原则</strong>。</li>
+<li>其他程序员必须能够读懂你的代码。这不仅包括要写好注释这件事，还包括要精心锤炼代码，使它能够表达你的编程意图。</li>
+</ol>
+<p><strong>在心烦意乱的时候，千万不要编码。</strong>可以专门空出一段时间来处理造成焦虑的问题，而不是强迫自己忍受着内心的焦虑煎熬继续编程。因为内心的焦虑会不断地削弱工作效率。</p>
+<p><strong>流态区</strong>结对编程最大的好处在与，结对中的任一方都不可能进入流态区。流态区是一种隔绝沟通的状态，而结对编程要求激烈地进行沟通。</p>
+<p><strong>听音乐</strong>听音乐会消耗最为重要的一部分脑力资源，而这些资源本该用于编写设计良好的整洁代码。</p>
+<p><strong>阻塞</strong>有时候会怎么也写不出代码，一个主要原因是失眠，焦虑、恐惧和沮丧。找一个搭档结对编程能够很好的解决这个问题。</p>
+<p><strong>调试</strong>调试会占用掉大部分的开发时间，而大多数人认为存在调试时间是天经地义的，调试不等于编码。衡量你是否是一名专业人士的一个重要方面便是看你是否能将调试时间尽量降到最低。绝对的零调试时间是一个理想化的目标，无法达到，我们将之作为努力方向。</p>
+<p><strong>加班</strong>必须满足以下三个条件</p>
+<ol>
+<li>个人能挤出时间</li>
+<li>短期加班，最多两周</li>
+<li>你的老板有预备方案，以防万一加班措施失败了</li>
+</ol>
+<p><strong>完成</strong>对于完成的标准不能降低，否则就会陷入恶性循环，我们必须将任务完成的足够好，才能转入下一个任务。可以让业务分析师和测试人员创建一个自动化的验收测试，只有完全通过这些测试验收，开发任务才算完成。</p>
+<p><strong>帮助别人</strong>帮助别人一起写代码，当你离开时，可能发现自己从中收获的比给予的东西还要多。辅导缺乏经验的程序员是那些经验丰富的程序员的职责。同样道理，向资深导师寻求辅导也是年轻程序员的专业职责。</p>
+<h2 id="测试驱动开发"><a href="#测试驱动开发" class="headerlink" title="测试驱动开发"></a>测试驱动开发</h2><p>TDD的三项原则</p>
+<ol>
+<li>在编好失败单元测试之前，不要编写任何产品代码</li>
+<li>只要有一个单元测试失败了，就不要再写测试代码，无法通过编译也是一种失败情况。</li>
+<li>产品代码恰好能够让当前失败的单元测试成功通过即可，不要多写</li>
+<li>**任何时刻，代码有任何修改，都必须运行手头有的全部测试</li>
+</ol>
+<p><strong>TDD的强大之处在于拥有一套值得信赖的测试，便可完全打消对修改代码的全部恐惧，当看见糟糕代码时就放手整理。代码会变得具有可塑性，你可以安全地将之雕琢成简单而满意的结构。</strong>专业程序员怎么能忍受代码持续劣化呢？<strong> </strong>测试先行迫使你去考虑什么是好的设计<strong>测试代码的一个问题是必须隔离出待测试的代码，如果一个函数调用了其他函数，单独测试停产比较困难，为了编写测试，你必须找出将这个函数与其他函数解耦的棒法（Mock）</strong>不使用TDD说明还不够专业**</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><hr>
+<p><strong>过早精细化</strong>做业务和做开发的都容易陷入一个陷阱，即过早进行精细化。业务方还没有启动项目，就要精确知道最后能得到什么，开发还没有评估整个项目，就希望精确知道要交付什么。双发都贪求不切实际的精确性，并且愿意花大代价开追求这种精确。</p>
+<p><strong>业务方一看到满足了的需求，他们就会冒出更好的想法</strong>，通常并不是他们当时看到的样子。在工作中，有一种现象叫做观察者效应。每次你向业务方展示一项功能，他们获得了比之前更多的信息，这些新信息反过来又会影响他们对整个系统的看法。最终结果是，需求完成的越精细，就越容易被忽视，系统因此谈不上完工。<strong>需求一定是回变化的，所以追求哪种精确性是徒劳的</strong>。专业开发人员知道，评估而且必须基于不那么精确的需求，这些评估只是评估而已。</p>
+<p><strong>验收测试</strong>定义为业务方与开发方合作编写的测试，其目的在于确定需求已经完成。</p>
+<p><strong>完成</strong>意味着，所有代码都写完了，所有测试都通过了，QA和需求方已经认可，这才是完成。</p>
+<p><strong>测试</strong>非常重要，也并非是额外的工作，它们是为了确定系统的各项指标符合要求。理想状态下，业务方和QA回协作编写这些测试，程序员来检查测试之间的是否冲突或矛盾。<strong>如果只能由开发人员来写测试，应当确保写测试的程序员与开发所测试功能的程序员不是同一个人</strong></p>
+<p><strong>验收测试</strong>不是单元测试，单元测试是程序员写给程序员的，它是正式的设计文档，描述了底层结构及代码的行为。尽管单元测试和验收测试的对象通常是相同的，但绝谈不上重复。单元测试和验收测试首先是文档，然后才是测试。它们的主要目的是如实描述系统的设计。</p>
+<p><strong>持续集成</strong>整套持续集成系统应该由源代码管理系统来触发，只要有了提交了代码，持续集成系统就会开始构建，并运行所有测试，测试结果回用电子邮件发送给团队的所有人。<strong>持续集成不应该失败</strong></p>
+<p><strong>测试策略</strong>应该把QA找不到任何错误作为努力的目标<br>自动化测试金字塔：单元测试，组件测试，集成测试，系统测试，人工探索式测试。</p>
+<h2 id="时间管理"><a href="#时间管理" class="headerlink" title="时间管理"></a>时间管理</h2><hr>
+<p><strong>会议</strong>每人每小时200美元，这个数字包括工资福利设备损耗，下次开会的时候不放算算会议的成本。关于会议有两条真理：1. 会议是必须的 2. 会议浪费了大量的时间<br>收到邀请的会议没必要全部参加，参加的会议太多，只能证明你不够专业。应该理智地使用时间，必须谨慎选择，应该参加哪些会议，礼貌拒绝哪些会议。<strong>邀请你参加会议的人并不负责管理你的时间，为时间负责的只有你</strong>如果收到会议邀请，务必确保出席会议可以给自己目前的工作带来切实且显著的成效，否则不必参加。有些会议可能可能让你很感兴趣，但当下没有必要参加的会，这时候就要判断自己能否花的起时间。<strong>领导最重要的责任之一，就是帮你从某些会议脱身。好的领导一定会主动维护你拒绝出席的决定，因为他和你一样关心你的时间</strong>这是一个简单的规则，<strong>如果会议让人厌烦，就离席</strong>。应该明白继续待在会议室是浪费时间，继续参加对你没有意义的会议是不专业的行为。如果收到会议邀请，务必弄清楚指定的议题是什么，每个议题花躲就多久的时间，要取得什么成果。如果得不到确切答案，你可以礼貌拒绝。<br>迭代回顾会最好放在最后一天下班前的45分钟，20分钟用来回顾，25分钟用来演示。</p>
+<p><strong>争论/反对</strong>凡是不能在五分钟内解决的争论，都不能靠辩说解决。之所以无法快速结束争论，是因为各方都拿不出足够有力的证据。唯一的出路就是，用数据说话。</p>
+<p><strong>预估</strong>业务方觉的预估就是承诺，开发方觉的预估就是猜测，两者相差迥异。大多数软件开发者都不是很擅长预估，这不是因为他们没有掌握预估的诀窍，根本没有这样诀窍，预估的偏差总是很大，原因在于我们并没有理解预估的实质。</p>
+<p><strong>专业的程序员一旦做了承诺就会提供确定的数字，按时兑现</strong>。但是大多数情况下，他们不会做出这种承诺，二是提供概率预估，来描述期望完成时间及可能的变数。</p>
+<p><strong>即使有压力，专业开发人员也会冷静果断</strong>在压力下保持冷静的最好方式，便是规避回导致 压力的处境。应对压力的诀窍在于，能够回避的压力尽可能的回避，当无法回避时则勇敢直面压力。可以通过慎重承诺、遵循自己的纪律原则、保持整洁等来回避压力。直面压力时，则要保持冷静，与别人多多沟通，坚守自己的原则纪律，并寻求他人的帮助。</p>
+<p><strong>协作</strong>虽然我们并非是喜欢和人们一起工作才选择做程序员的，但专业程序员的首要职责就是满足雇主的需求，花时间去理解业务，会将注意力放在如何与业务同舟共济上。将代码所有权的各种隔断全部打破，由整个团队共同拥有全部代码的做法，相较于此则好得多。专业的程序员是不会在代码构造所有权上剥离，二是尽可能的互相合作。结对编程是一种很好的方式，这是分享知识的最好途径，在关键时候，每位团队成员也要能够接替其他人的位置。结对编程也是复查代码的最好方式。团队比项目更难构建。组建稳健的团队，让团队在一个又一个项目中整体移动共同工作是较好的做法。</p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/07/21/《程序员的职业素养》的读书心得/">《程序员的职业素养》的读书心得</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 wuzhi1234 的个人博客">wuzhi1234</a></p>
+        <p><span>发布时间:</span>2016年07月21日 - 20时30分</p>
+        <p><span>最后更新:</span>2018年05月05日 - 00时24分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/07/21/《程序员的职业素养》的读书心得/" title="《程序员的职业素养》的读书心得">http://gaojingbao.me/2016/07/21/《程序员的职业素养》的读书心得/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaojingbao.me/2016/07/21/《程序员的职业素养》的读书心得/　　作者: wuzhi1234" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/07/30/Git的各种回滚文件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Git的各种回滚文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/10/08/Mac安装Hive1.2.1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Mac安装Hive1.2.1</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#专业主义"><span class="toc-number">1.</span> <span class="toc-text">专业主义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#职业道德"><span class="toc-number">2.</span> <span class="toc-text">职业道德</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说『不』和说『是』的重要性"><span class="toc-number">3.</span> <span class="toc-text">说『不』和说『是』的重要性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编码"><span class="toc-number">4.</span> <span class="toc-text">编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试驱动开发"><span class="toc-number">5.</span> <span class="toc-text">测试驱动开发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">6.</span> <span class="toc-text">测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间管理"><span class="toc-number">7.</span> <span class="toc-text">时间管理</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/07/21/《程序员的职业素养》的读书心得/" data-title="《程序员的职业素养》的读书心得" data-url="http://gaojingbao.me/2016/07/21/《程序员的职业素养》的读书心得/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaojingbao"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/07/30/Git的各种回滚文件/" title="上一篇: Git的各种回滚文件">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2015/10/08/Mac安装Hive1.2.1/" title="下一篇: Mac安装Hive1.2.1">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/Git的各种回滚文件/">Git的各种回滚文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/《程序员的职业素养》的读书心得/">《程序员的职业素养》的读书心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/08/Mac安装Hive1.2.1/">Mac安装Hive1.2.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/02/推荐系统算法介绍/">推荐系统算法介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/满二叉树和完全二叉树/">满二叉树和完全二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/实现Queue接口的LinkedList类/">实现Queue接口的LinkedList类</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/两场面试/">两场面试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/20/设计模式总结/">设计模式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/17/MapReduce运行机制/">MapReduce运行机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/15/动态绑定/">动态绑定</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/12/垃圾收集器/">垃圾收集器</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/WordCount处理过程详解/">WordCount处理过程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/HotSpot的算法实现/">HotSpot的算法实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/垃圾收集算法/">垃圾收集算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/对象已死/">对象已死？</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/06/Mahout安装与配置/">Mahout的安装与配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/Java内存管理原理学习笔记/">Java内存管理原理学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/各大家族汽车谱系/">各大家族汽车谱系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/03/OS X10.10安装hadoop2.6.0/">OS X10.10安装hadoop2.6.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/03/Hello World/">Hello World</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 wuzhi1234
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>推荐系统算法介绍 | SimpleCoder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="实习这俩天又有新任务了，要把之前搁置的推荐的“猜你喜欢”部分做起来，重新开始推荐算法的研究，之前看过一阵子推荐算法的东西，再借此机会复习下。其实从大的分类一共就四大类推荐算法吧，基于人口统计学的，基于内容的，协同过滤和混合推荐。">
+<meta name="keywords" content="算法,推荐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐系统算法介绍">
+<meta property="og:url" content="http://gaojingbao.me/2015/09/02/推荐系统算法介绍/index.html">
+<meta property="og:site_name" content="SimpleCoder">
+<meta property="og:description" content="实习这俩天又有新任务了，要把之前搁置的推荐的“猜你喜欢”部分做起来，重新开始推荐算法的研究，之前看过一阵子推荐算法的东西，再借此机会复习下。其实从大的分类一共就四大类推荐算法吧，基于人口统计学的，基于内容的，协同过滤和混合推荐。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://7xkuuq.com1.z0.glb.clouddn.com/recocomend屏幕快照%202015-09-02%2011.20.43.png">
+<meta property="og:image" content="http://7xkuuq.com1.z0.glb.clouddn.com/recocomend屏幕快照%202015-09-02%2011.20.49.png">
+<meta property="og:updated_time" content="2018-05-05T14:42:33.660Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="推荐系统算法介绍">
+<meta name="twitter:description" content="实习这俩天又有新任务了，要把之前搁置的推荐的“猜你喜欢”部分做起来，重新开始推荐算法的研究，之前看过一阵子推荐算法的东西，再借此机会复习下。其实从大的分类一共就四大类推荐算法吧，基于人口统计学的，基于内容的，协同过滤和混合推荐。">
+<meta name="twitter:image" content="http://7xkuuq.com1.z0.glb.clouddn.com/recocomend屏幕快照%202015-09-02%2011.20.43.png">
+  
+    <link rel="alternative" href="/atom.xml" title="SimpleCoder" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">wuzhi1234</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="/site">常用网站</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                            
+                                <a class="fl douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hadoop/" style="font-size: 16.67px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mahout/" style="font-size: 10px;">Mahout</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/分享/" style="font-size: 10px;">分享</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/程序员/" style="font-size: 10px;">程序员</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/虚拟机/" style="font-size: 16.67px;">虚拟机</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">name</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一名银行IT程序员, 喜欢尝试新鲜的事物，爱折腾。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">wuzhi1234</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">wuzhi1234</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="/site">常用网站</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                    
+                        <a class="douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-推荐系统算法介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/02/推荐系统算法介绍/" class="article-date">
+      <time datetime="2015-09-02T03:15:16.000Z" itemprop="datePublished">2015-09-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      推荐系统算法介绍
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/数据挖掘/">数据挖掘</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/推荐/">推荐</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>实习这俩天又有新任务了，要把之前搁置的推荐的<strong>“猜你喜欢”</strong>部分做起来，重新开始推荐算法的研究，之前看过一阵子推荐算法的东西，再借此机会复习下。其实从大的分类一共就四大类推荐算法吧，基于人口统计学的，基于内容的，协同过滤和混合推荐。<br><a id="more"></a></p>
+<h2 id="基于人口统计学的推荐"><a href="#基于人口统计学的推荐" class="headerlink" title="基于人口统计学的推荐"></a>基于人口统计学的推荐</h2><p>这是最为简单的一种推荐算法，它只是简单的根据系统用户的基本信息发现用户的相关程度，然后将相似用户喜爱的其他物品推荐给当前用户。<br><img src="http://7xkuuq.com1.z0.glb.clouddn.com/recocomend屏幕快照%202015-09-02%2011.20.43.png" alt=""><br>　　<br>系统首先会根据用户的属性建模，比如用户的年龄，性别，兴趣等信息。根据这些特征计算用户间的相似度。比如系统通过计算发现用户A和C比较相似。就会把A喜欢的物品推荐给C。</p>
+<h3 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h3><ol>
+<li>不需要历史数据，<strong>没有冷启动</strong>问题</li>
+<li>不依赖于物品的属性，因此其他领域的问题都可无缝接入。</li>
+</ol>
+<h3 id="不足："><a href="#不足：" class="headerlink" title="不足："></a>不足：</h3><p>算法比较粗糙，效果很难令人满意，只适合简单的推荐
+　</p>
+<h2 id="基于内容的推荐"><a href="#基于内容的推荐" class="headerlink" title="基于内容的推荐"></a>基于内容的推荐</h2><p>与上面的方法相类似，只不过这次的中心转到了物品本身。使用物品本身的相似度而不是用户的相似度。<br><img src="http://7xkuuq.com1.z0.glb.clouddn.com/recocomend屏幕快照%202015-09-02%2011.20.49.png" alt=""><br>系统首先对物品（图中举电影的例子）的属性进行建模，图中用类型作为属性。在实际应用中，只根据类型显然过于粗糙，还需要考虑演员，导演等更多信息。通过相似度计算，发现电影A和C相似度较高，因为他们都属于爱情类。系统还会发现用户A喜欢电影A，由此得出结论，用户A很可能对电影C也感兴趣。于是将电影C推荐给A。</p>
+<h3 id="优势：-1"><a href="#优势：-1" class="headerlink" title="优势："></a>优势：</h3><p>对用户兴趣可以很好的建模，并通过对物品属性维度的增加，获得更好的推荐精度</p>
+<h3 id="不足：-1"><a href="#不足：-1" class="headerlink" title="不足："></a>不足：</h3><ol>
+<li>物品的属性有限，很难有效的得到更多数据</li>
+<li>物品相似度的衡量标准只考虑到了物品本身，有一定的片面性</li>
+<li>需要用户的物品的历史数据，<strong>有冷启动</strong>的问题</li>
+</ol>
+<h2 id="协同过滤"><a href="#协同过滤" class="headerlink" title="协同过滤"></a>协同过滤</h2><p>协同过滤是推荐算法中最经典最常用的，具体的思路我已经在之前的一篇文章中提到过，大家可以去看一下。这里只想介绍一下协同过滤中的方法和刚才提到方法的区别。大家都知道协同过滤分为基于用户的协同过滤和基于物品的协同过滤。那么他们和基于人口学统计的推荐和基于内容的推荐有什么区别和联系呢？下面简单介绍一下。
+　　</p>
+<h3 id="基于用户的协同过滤——基于人口统计学的推荐"><a href="#基于用户的协同过滤——基于人口统计学的推荐" class="headerlink" title="基于用户的协同过滤——基于人口统计学的推荐"></a>基于用户的协同过滤——基于人口统计学的推荐</h3><p>基于用户的协同过滤推荐机制和基于人口统计学的推荐机制都是计算用户的相似度，并基于“邻居”用户群计算推荐，但它们所不同的是如何计算用户的相似度，基于人口统计学的机制只考虑用户本身的特征，而基于用户的协同过滤机制可是在用户的<strong>历史偏好的数据上计算用户的相似度</strong>，它的基本假设是，<strong>喜欢类似物品的用户可能有相同或者相似的口味和偏好</strong>。</p>
+<h3 id="基于物品的协同过滤——基于内容的推荐"><a href="#基于物品的协同过滤——基于内容的推荐" class="headerlink" title="基于物品的协同过滤——基于内容的推荐"></a>基于物品的协同过滤——基于内容的推荐</h3><p>基于项目的协同过滤推荐和基于内容的推荐其实都是基于物品相似度预测推荐，只是相似度计算的方法不一样，前者是从用户历史的偏好推断，而后者是基于物品本身的属性特征信息。<br>协同过滤的优势：</p>
+<ol>
+<li>它不需要对物品或者用户进行严格的建模，而且不要求物品的描述是机器可理解的，所以这种方法也是领域无关的。</li>
+<li>这种方法计算出来的推荐是开放的，可以共用他人的经验，很好的支持用户发现潜在的兴趣偏好</li>
+</ol>
+<p>不足：</p>
+<ol>
+<li>方法的核心是基于历史数据，所以对新物品和新用户<strong>都有“冷启动”</strong>的问题。</li>
+<li>推荐的效果依赖于用户历史偏好数据的多少和准确性。</li>
+<li>在大部分的实现中，用户历史偏好是用稀疏矩阵进行存储的，而稀疏矩阵上的计算有些明显的问题，包括可能少部分人的错误偏好会对推荐的准确度有很大的影响等等。</li>
+<li>对于一些特殊品味的用户不能给予很好的推荐。</li>
+<li>由于以历史数据为基础，抓取和建模用户的偏好后，很难修改或者根据用户的使用演变，从而导致这个方法不够灵活。</li>
+</ol>
+<h2 id="混合推荐算法"><a href="#混合推荐算法" class="headerlink" title="混合推荐算法"></a>混合推荐算法</h2><p>以上介绍的方法是推荐领域最常见的几种方法。但是可以看出，每个方法都不是完美的。因此实际应用中，向Amazon这样的系统都是混合使用各种推荐算法，各取所长。因此我们在使用时，也可以多考虑一下什么情况下更适合使用哪种算法，来提高我们系统的效率。</p>
+<h2 id="推荐系统的发展方向"><a href="#推荐系统的发展方向" class="headerlink" title="推荐系统的发展方向"></a>推荐系统的发展方向</h2><ol>
+<li>需要考虑在保证推荐准确性的同时增加推荐的多样性，使特殊喜好的用户得到推荐</li>
+<li>需要考虑用户对系统的实时反馈，更好的利用反馈数据强化推荐算法</li>
+<li>考虑时间，空间，任务等因素，来更好的完成推荐</li>
+</ol>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2015/09/02/推荐系统算法介绍/">推荐系统算法介绍</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 wuzhi1234 的个人博客">wuzhi1234</a></p>
+        <p><span>发布时间:</span>2015年09月02日 - 11时15分</p>
+        <p><span>最后更新:</span>2018年05月05日 - 22时42分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2015/09/02/推荐系统算法介绍/" title="推荐系统算法介绍">http://gaojingbao.me/2015/09/02/推荐系统算法介绍/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaojingbao.me/2015/09/02/推荐系统算法介绍/　　作者: wuzhi1234" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/10/08/Mac安装Hive1.2.1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Mac安装Hive1.2.1
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/09/01/满二叉树和完全二叉树/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">满二叉树和完全二叉树</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于人口统计学的推荐"><span class="toc-number">1.</span> <span class="toc-text">基于人口统计学的推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优势："><span class="toc-number">1.1.</span> <span class="toc-text">优势：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不足："><span class="toc-number">1.2.</span> <span class="toc-text">不足：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于内容的推荐"><span class="toc-number">2.</span> <span class="toc-text">基于内容的推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优势：-1"><span class="toc-number">2.1.</span> <span class="toc-text">优势：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不足：-1"><span class="toc-number">2.2.</span> <span class="toc-text">不足：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协同过滤"><span class="toc-number">3.</span> <span class="toc-text">协同过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于用户的协同过滤——基于人口统计学的推荐"><span class="toc-number">3.1.</span> <span class="toc-text">基于用户的协同过滤——基于人口统计学的推荐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于物品的协同过滤——基于内容的推荐"><span class="toc-number">3.2.</span> <span class="toc-text">基于物品的协同过滤——基于内容的推荐</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混合推荐算法"><span class="toc-number">4.</span> <span class="toc-text">混合推荐算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐系统的发展方向"><span class="toc-number">5.</span> <span class="toc-text">推荐系统的发展方向</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2015/09/02/推荐系统算法介绍/" data-title="推荐系统算法介绍" data-url="http://gaojingbao.me/2015/09/02/推荐系统算法介绍/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaojingbao"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2015/10/08/Mac安装Hive1.2.1/" title="上一篇: Mac安装Hive1.2.1">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2015/09/01/满二叉树和完全二叉树/" title="下一篇: 满二叉树和完全二叉树">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/Git的各种回滚文件/">Git的各种回滚文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/《程序员的职业素养》的读书心得/">《程序员的职业素养》的读书心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/08/Mac安装Hive1.2.1/">Mac安装Hive1.2.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/02/推荐系统算法介绍/">推荐系统算法介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/满二叉树和完全二叉树/">满二叉树和完全二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/实现Queue接口的LinkedList类/">实现Queue接口的LinkedList类</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/两场面试/">两场面试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/20/设计模式总结/">设计模式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/17/MapReduce运行机制/">MapReduce运行机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/15/动态绑定/">动态绑定</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/12/垃圾收集器/">垃圾收集器</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/WordCount处理过程详解/">WordCount处理过程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/HotSpot的算法实现/">HotSpot的算法实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/垃圾收集算法/">垃圾收集算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/对象已死/">对象已死？</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/06/Mahout安装与配置/">Mahout的安装与配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/Java内存管理原理学习笔记/">Java内存管理原理学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/各大家族汽车谱系/">各大家族汽车谱系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/03/OS X10.10安装hadoop2.6.0/">OS X10.10安装hadoop2.6.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/03/Hello World/">Hello World</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 wuzhi1234
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MapReduce运行机制 | SimpleCoder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="谈mapreduce运行机制，可以从很多不同的角度来描述，比如说从mapreduce运行流程来讲解，也可以从计算模型的逻辑流程来进行讲解，也许有些深入理解了mapreduce运行机制还会从更好的角度来描述，但是将mapreduce运行机制有些东西是避免不了的，就是一个是参与的实例对象，一个就是计算模型的逻辑定义阶段，我这里讲解不从什么流程出发，就从这些一个个牵涉的对象，不管是物理实体还是逻辑实体。">
+<meta name="keywords" content="Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MapReduce运行机制">
+<meta property="og:url" content="http://gaojingbao.me/2015/08/17/MapReduce运行机制/index.html">
+<meta property="og:site_name" content="SimpleCoder">
+<meta property="og:description" content="谈mapreduce运行机制，可以从很多不同的角度来描述，比如说从mapreduce运行流程来讲解，也可以从计算模型的逻辑流程来进行讲解，也许有些深入理解了mapreduce运行机制还会从更好的角度来描述，但是将mapreduce运行机制有些东西是避免不了的，就是一个是参与的实例对象，一个就是计算模型的逻辑定义阶段，我这里讲解不从什么流程出发，就从这些一个个牵涉的对象，不管是物理实体还是逻辑实体。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2015-08-26T16:38:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MapReduce运行机制">
+<meta name="twitter:description" content="谈mapreduce运行机制，可以从很多不同的角度来描述，比如说从mapreduce运行流程来讲解，也可以从计算模型的逻辑流程来进行讲解，也许有些深入理解了mapreduce运行机制还会从更好的角度来描述，但是将mapreduce运行机制有些东西是避免不了的，就是一个是参与的实例对象，一个就是计算模型的逻辑定义阶段，我这里讲解不从什么流程出发，就从这些一个个牵涉的对象，不管是物理实体还是逻辑实体。">
+  
+    <link rel="alternative" href="/atom.xml" title="SimpleCoder" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">wuzhi1234</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="/site">常用网站</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                            
+                                <a class="fl douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hadoop/" style="font-size: 16.67px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mahout/" style="font-size: 10px;">Mahout</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/分享/" style="font-size: 10px;">分享</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/程序员/" style="font-size: 10px;">程序员</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/虚拟机/" style="font-size: 16.67px;">虚拟机</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">name</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一名银行IT程序员, 喜欢尝试新鲜的事物，爱折腾。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">wuzhi1234</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">wuzhi1234</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="/site">常用网站</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                    
+                        <a class="douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-MapReduce运行机制" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/17/MapReduce运行机制/" class="article-date">
+      <time datetime="2015-08-17T09:22:16.000Z" itemprop="datePublished">2015-08-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MapReduce运行机制
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/转载/">转载</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>谈mapreduce运行机制，可以从很多不同的角度来描述，比如说从mapreduce运行流程来讲解，也可以从计算模型的逻辑流程来进行讲解，也许有些深入理解了mapreduce运行机制还会从更好的角度来描述，但是将mapreduce运行机制有些东西是避免不了的，就是一个是参与的实例对象，一个就是计算模型的逻辑定义阶段，我这里讲解不从什么流程出发，就从这些一个个牵涉的对象，不管是物理实体还是逻辑实体。<br><a id="more"></a></p>
+<h2 id="一、物理实体"><a href="#一、物理实体" class="headerlink" title="一、物理实体"></a>一、物理实体</h2><p>参入mapreduce作业执行涉及4个独立的实体：</p>
+<ol>
+<li><strong>客户端（client）</strong>：编写mapreduce程序，配置作业，提交作业，这就是程序员完成的工作；</li>
+<li><strong>JobTracker</strong>：初始化作业，分配作业，与TaskTracker通信，协调整个作业的执行；</li>
+<li><strong>TaskTracker</strong>：保持与JobTracker的通信，在分配的数据片段上执行Map或Reduce任务，TaskTracker和JobTracker的不同有个很重要的方面，就是在执行任务时候TaskTracker可以有n多个，JobTracker则只会有一个（JobTracker只能有一个就和hdfs里namenode一样存在单点故障，我会在后面的mapreduce的相关问题里讲到这个问题的）</li>
+<li><strong>Hdfs</strong>：保存作业的数据、配置信息等等，最后的结果也是保存在hdfs上面</li>
+</ol>
+<h2 id="二、运行机制"><a href="#二、运行机制" class="headerlink" title="二、运行机制"></a>二、运行机制</h2><h3 id="提交Job"><a href="#提交Job" class="headerlink" title="提交Job"></a><strong>提交Job</strong></h3><p>首先是客户端要编写好mapreduce程序，配置好mapreduce的作业也就是job，接下来就是提交job了，提交job是提交到JobTracker上的，这个时候JobTracker就会构建这个job，具体就是分配一个新的job任务的ID值，</p>
+<h3 id="检查操作"><a href="#检查操作" class="headerlink" title="检查操作"></a><strong>检查操作</strong></h3><p>接下来它会做检查操作，这个检查就是确定输出目录是否存在，如果存在那么job就不能正常运行下去，JobTracker会抛出错误给客户端。接下来还要检查输入目录是否存在，如果不存在同样抛出错误。</p>
+<h3 id="计算分片"><a href="#计算分片" class="headerlink" title="计算分片"></a><strong>计算分片</strong></h3><p>如果存在JobTracker会根据输入计算输入分片（Input Split），如果分片计算不出来也会抛出错误，这些都做好了JobTracker就会配置Job需要的资源了。</p>
+<h3 id="初始化作业"><a href="#初始化作业" class="headerlink" title="初始化作业"></a><strong>初始化作业</strong></h3><p>分配好资源后，JobTracker就会初始化作业，初始化主要做的是将Job放入一个内部的队列，让配置好的作业调度器能调度到这个作业，作业调度器会初始化这个job，初始化就是创建一个正在运行的job对象（封装任务和记录信息），以便JobTracker跟踪job的状态和进程。初始化完毕后，作业调度器会获取输入分片信息（input split），每个分片创建一个map任务。</p>
+<h3 id="任务分配"><a href="#任务分配" class="headerlink" title="任务分配"></a><strong>任务分配</strong></h3><p>接下来就是任务分配了，这个时候tasktracker会运行一个简单的循环机制定期发送心跳给jobtracker，心跳间隔是5秒，程序员可以配置这个时间，心跳就是jobtracker和tasktracker沟通的桥梁，通过心跳，jobtracker可以监控tasktracker是否存活，也可以获取tasktracker处理的状态和问题，同时tasktracker也可以通过心跳里的返回值获取jobtracker给它的操作指令。</p>
+<h3 id="执行任务"><a href="#执行任务" class="headerlink" title="执行任务"></a><strong>执行任务</strong></h3><p>在任务执行时候jobtracker可以通过心跳机制监控tasktracker的状态和进度，同时也能计算出整个job的状态和进度，而tasktracker也可以本地监控自己的状态和进度。当jobtracker获得了最后一个完成指定任务的tasktracker操作成功的通知时候，jobtracker会把整个job状态置为成功，然后当客户端查询job运行状态时候（注意：这个是异步操作），客户端会查到job完成的通知的。如果job中途失败，mapreduce也会有相应机制处理，一般而言如果不是程序员程序本身有bug，mapreduce错误处理机制都能保证提交的job能正常完成。</p>
+<h2 id="三、阶段特点"><a href="#三、阶段特点" class="headerlink" title="三、阶段特点"></a>三、阶段特点</h2><p>下面我从逻辑实体的角度讲解mapreduce运行机制，这些按照时间顺序包括：输入分片（input split）、map阶段、combiner阶段、shuffle阶段和reduce阶段。</p>
+<h3 id="输入分片（input-split）"><a href="#输入分片（input-split）" class="headerlink" title="输入分片（input split）"></a><strong>输入分片（input split）</strong></h3><p>在进行map计算之前，mapreduce会根据输入文件计算输入分片（input split），每个输入分片（input split）针对一个map任务，输入分片（input split）存储的并非数据本身，而是一个分片长度和一个记录数据的位置的数组，输入分片（input split）往往和hdfs的block（块）关系很密切，假如我们设定hdfs的块的大小是64mb，如果我们输入有三个文件，大小分别是3mb、65mb和127mb，那么mapreduce会把3mb文件分为一个输入分片（input split），65mb则是两个输入分片（input split）而127mb也是两个输入分片（input split），换句话说我们如果在map计算前做输入分片调整，例如合并小文件，那么就会有5个map任务将执行，而且每个map执行的数据大小不均，这个也是mapreduce优化计算的一个关键点。</p>
+<h3 id="map阶段"><a href="#map阶段" class="headerlink" title="map阶段"></a><strong>map阶段</strong></h3><p>就是程序员编写好的map函数了，因此map函数效率相对好控制，而且一般map操作都是本地化操作也就是在数据存储节点上进行；</p>
+<h3 id="combiner阶段"><a href="#combiner阶段" class="headerlink" title="combiner阶段"></a><strong>combiner阶段</strong></h3><p>combiner阶段是程序员可以选择的，combiner其实也是一种reduce操作，因此我们看见WordCount类里是用reduce进行加载的。Combiner是一个本地化的reduce操作，它是map运算的后续操作，主要是在map计算出中间文件前做一个简单的合并重复key值的操作，例如我们对文件里的单词频率做统计，map计算时候如果碰到一个hadoop的单词就会记录为1，但是这篇文章里hadoop可能会出现n多次，那么map输出文件冗余就会很多，因此在reduce计算前对相同的key做一个合并操作，那么文件会变小，这样就提高了宽带的传输效率，毕竟hadoop计算力宽带资源往往是计算的瓶颈也是最为宝贵的资源，但是combiner操作是有风险的，使用它的原则是combiner的输入不会影响到reduce计算的最终输入，例如：如果计算只是求总数，最大值，最小值可以使用combiner，但是做平均值计算使用combiner的话，最终的reduce计算结果就会出错。</p>
+<h3 id="shuffle阶段"><a href="#shuffle阶段" class="headerlink" title="shuffle阶段"></a><strong>shuffle阶段</strong></h3><p>将map的输出作为reduce的输入的过程就是shuffle了，这个是mapreduce优化的重点地方。</p>
+<p>Shuffle一开始就是map阶段做输出操作，一般mapreduce计算的都是海量数据，map输出时候不可能把所有文件都放到内存操作，因此map写入磁盘的过程十分的复杂，更何况map输出时候要对结果进行排序，内存开销是很大的，map在做输出时候会在内存里开启一个环形内存缓冲区，这个缓冲区专门用来输出的，默认大小是100mb，并且在配置文件里为这个缓冲区设定了一个阀值，默认是0.80（这个大小和阀值都是可以在配置文件里进行配置的），同时map还会为输出操作启动一个守护线程，如果缓冲区的内存达到了阀值的80%时候，这个守护线程就会把内容写到磁盘上，这个过程叫spill，另外的20%内存可以继续写入要写进磁盘的数据，写入磁盘和写入内存操作是互不干扰的，如果缓存区被撑满了，那么map就会阻塞写入内存的操作，让写入磁盘操作完成后再继续执行写入内存操作。</p>
+<p>前面我讲到写入磁盘前会有个排序操作，这个是在写入磁盘操作时候进行，不是在写入内存时候进行的，如果我们定义了combiner函数，那么排序前还会执行combiner操作。每次spill操作也就是写入磁盘操作时候就会写一个溢出文件，也就是说在做map输出有几次spill就会产生多少个溢出文件，等map输出全部做完后，map会合并这些输出文件（本地map合并自己的输出文件）。</p>
+<p>这个过程里还会有一个Partitioner操作，对于这个操作很多人都很迷糊，其实Partitioner操作和map阶段的输入分片（Input split）很像，一个Partitioner对应一个reduce作业，如果我们mapreduce操作只有一个reduce操作，那么Partitioner就只有一个，如果我们有多个reduce操作，那么Partitioner对应的就会有多个，Partitioner因此就是reduce的输入分片，这个程序员可以编程控制，主要是根据实际key和value的值，根据实际业务类型或者为了更好的reduce负载均衡要求进行，这是提高reduce效率的一个关键所在。</p>
+<p>到了reduce阶段就是合并map输出文件了（集群map合并集群各个Map的输出文件），Partitioner会找到对应的map输出文件，然后进行复制操作，复制操作时reduce会开启几个复制线程，这些线程默认个数是5个，程序员也可以在配置文件更改复制线程的个数，这个复制过程和map写入磁盘过程类似，也有阀值和内存大小，阀值一样可以在配置文件里配置，而内存大小是直接使用reduce的tasktracker的内存大小，复制时候reduce还会进行排序操作和合并文件操作，这些操作完了就会进行reduce计算了。</p>
+<h3 id="reduce阶段"><a href="#reduce阶段" class="headerlink" title="reduce阶段"></a><strong>reduce阶段</strong></h3><p>和map函数一样也是程序员编写的，最终结果是存储在hdfs上的。</p>
+<h2 id="四、Mapreduce的相关问题"><a href="#四、Mapreduce的相关问题" class="headerlink" title="四、Mapreduce的相关问题"></a>四、Mapreduce的相关问题</h2><p>这里我要谈谈我学习mapreduce思考的一些问题，都是我自己想出解释的问题，但是某些问题到底对不对，就要广大童鞋帮我确认了。</p>
+<ol>
+<li><p>jobtracker的单点故障：jobtracker和hdfs的namenode一样也存在单点故障，单点故障一直是hadoop被人诟病的大问题，为什么hadoop的做的文件系统和mapreduce计算框架都是高容错的，但是最重要的管理节点的故障机制却如此不好，我认为主要是namenode和jobtracker在实际运行中都是在内存操作，而做到内存的容错就比较复杂了，只有当内存数据被持久化后容错才好做，namenode和jobtracker都可以备份自己持久化的文件，但是这个持久化都会有延迟，因此真的出故障，任然不能整体恢复，另外hadoop框架里包含zookeeper框架，zookeeper可以结合jobtracker，用几台机器同时部署jobtracker，保证一台出故障，有一台马上能补充上，不过这种方式也没法恢复正在跑的mapreduce任务。</p>
+</li>
+<li><p>做mapreduce计算时候，输出一般是一个文件夹，而且该文件夹是不能存在，我在出面试题时候提到了这个问题，而且这个检查做的很早，当我们提交job时候就会进行，mapreduce之所以这么设计是保证数据可靠性，如果输出目录存在reduce就搞不清楚你到底是要追加还是覆盖，不管是追加和覆盖操作都会有可能导致最终结果出问题，mapreduce是做海量数据计算，一个生产计算的成本很高，例如一个job完全执行完可能要几个小时，因此一切影响错误的情况mapreduce是零容忍的。</p>
+</li>
+<li><p>Mapreduce还有一个InputFormat和OutputFormat，我们在编写map函数时候发现map方法的参数是之间操作行数据，没有牵涉到InputFormat，这些事情在我们new Path时候mapreduce计算框架帮我们做好了，而OutputFormat也是reduce帮我们做好了，我们使用什么样的输入文件，就要调用什么样的InputFormat，InputFormat是和我们输入的文件类型相关的，mapreduce里常用的InputFormat有FileInputFormat普通文本文件，SequenceFileInputFormat是指hadoop的序列化文件，另外还有KeyValueTextInputFormat。OutputFormat就是我们想最终存储到hdfs系统上的文件格式了，这个根据你需要定义了，hadoop有支持很多文件格式，这里不一一列举，想知道百度下就看到了。</p>
+</li>
+</ol>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2015/08/17/MapReduce运行机制/">MapReduce运行机制</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 wuzhi1234 的个人博客">wuzhi1234</a></p>
+        <p><span>发布时间:</span>2015年08月17日 - 17时22分</p>
+        <p><span>最后更新:</span>2015年08月27日 - 00时38分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2015/08/17/MapReduce运行机制/" title="MapReduce运行机制">http://gaojingbao.me/2015/08/17/MapReduce运行机制/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaojingbao.me/2015/08/17/MapReduce运行机制/　　作者: wuzhi1234" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/08/20/设计模式总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          设计模式总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/15/动态绑定/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">动态绑定</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、物理实体"><span class="toc-number">1.</span> <span class="toc-text">一、物理实体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、运行机制"><span class="toc-number">2.</span> <span class="toc-text">二、运行机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#提交Job"><span class="toc-number">2.1.</span> <span class="toc-text">提交Job</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检查操作"><span class="toc-number">2.2.</span> <span class="toc-text">检查操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算分片"><span class="toc-number">2.3.</span> <span class="toc-text">计算分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化作业"><span class="toc-number">2.4.</span> <span class="toc-text">初始化作业</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任务分配"><span class="toc-number">2.5.</span> <span class="toc-text">任务分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行任务"><span class="toc-number">2.6.</span> <span class="toc-text">执行任务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、阶段特点"><span class="toc-number">3.</span> <span class="toc-text">三、阶段特点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#输入分片（input-split）"><span class="toc-number">3.1.</span> <span class="toc-text">输入分片（input split）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#map阶段"><span class="toc-number">3.2.</span> <span class="toc-text">map阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#combiner阶段"><span class="toc-number">3.3.</span> <span class="toc-text">combiner阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shuffle阶段"><span class="toc-number">3.4.</span> <span class="toc-text">shuffle阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce阶段"><span class="toc-number">3.5.</span> <span class="toc-text">reduce阶段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、Mapreduce的相关问题"><span class="toc-number">4.</span> <span class="toc-text">四、Mapreduce的相关问题</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2015/08/17/MapReduce运行机制/" data-title="MapReduce运行机制" data-url="http://gaojingbao.me/2015/08/17/MapReduce运行机制/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaojingbao"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2015/08/20/设计模式总结/" title="上一篇: 设计模式总结">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2015/08/15/动态绑定/" title="下一篇: 动态绑定">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/Git的各种回滚文件/">Git的各种回滚文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/《程序员的职业素养》的读书心得/">《程序员的职业素养》的读书心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/08/Mac安装Hive1.2.1/">Mac安装Hive1.2.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/02/推荐系统算法介绍/">推荐系统算法介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/满二叉树和完全二叉树/">满二叉树和完全二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/实现Queue接口的LinkedList类/">实现Queue接口的LinkedList类</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/两场面试/">两场面试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/20/设计模式总结/">设计模式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/17/MapReduce运行机制/">MapReduce运行机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/15/动态绑定/">动态绑定</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/12/垃圾收集器/">垃圾收集器</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/WordCount处理过程详解/">WordCount处理过程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/HotSpot的算法实现/">HotSpot的算法实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/垃圾收集算法/">垃圾收集算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/对象已死/">对象已死？</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/06/Mahout安装与配置/">Mahout的安装与配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/Java内存管理原理学习笔记/">Java内存管理原理学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/各大家族汽车谱系/">各大家族汽车谱系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/03/OS X10.10安装hadoop2.6.0/">OS X10.10安装hadoop2.6.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/03/Hello World/">Hello World</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 wuzhi1234
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

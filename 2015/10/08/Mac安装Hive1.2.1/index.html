@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Mac安装Hive1.2.1 | SimpleCoder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这几天在折腾Hive的相关东西，所以打算在自己的机器上安装下Hive，可是按照教程总是出这样那样的错误，着实蛋疼，最终发现错误是我的Mysql端口是3307，WTF。。这个问题已经坑了我几次了。在此把查看Mysql开启端口的命令放这，以后别被坑到了。SHOW GLOBAL VARIABLES LIKE &amp;#39;PORT&amp;#39;;">
+<meta name="keywords" content="Hive,Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac安装Hive1.2.1">
+<meta property="og:url" content="http://gaojingbao.me/2015/10/08/Mac安装Hive1.2.1/index.html">
+<meta property="og:site_name" content="SimpleCoder">
+<meta property="og:description" content="这几天在折腾Hive的相关东西，所以打算在自己的机器上安装下Hive，可是按照教程总是出这样那样的错误，着实蛋疼，最终发现错误是我的Mysql端口是3307，WTF。。这个问题已经坑了我几次了。在此把查看Mysql开启端口的命令放这，以后别被坑到了。SHOW GLOBAL VARIABLES LIKE &amp;#39;PORT&amp;#39;;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2016-07-21T15:10:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac安装Hive1.2.1">
+<meta name="twitter:description" content="这几天在折腾Hive的相关东西，所以打算在自己的机器上安装下Hive，可是按照教程总是出这样那样的错误，着实蛋疼，最终发现错误是我的Mysql端口是3307，WTF。。这个问题已经坑了我几次了。在此把查看Mysql开启端口的命令放这，以后别被坑到了。SHOW GLOBAL VARIABLES LIKE &amp;#39;PORT&amp;#39;;">
+  
+    <link rel="alternative" href="/atom.xml" title="SimpleCoder" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">wuzhi1234</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/about">关于博主</a></li>
+                        
+                            <li><a href="/site">常用网站</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                            
+                                <a class="fl douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Hadoop/" style="font-size: 16.67px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mahout/" style="font-size: 10px;">Mahout</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/分享/" style="font-size: 10px;">分享</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/程序员/" style="font-size: 10px;">程序员</a> <a href="/tags/算法/" style="font-size: 13.33px;">算法</a> <a href="/tags/编程/" style="font-size: 10px;">编程</a> <a href="/tags/虚拟机/" style="font-size: 16.67px;">虚拟机</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://luuman.github.io/">name</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">一名银行IT程序员, 喜欢尝试新鲜的事物，爱折腾。</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">wuzhi1234</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">wuzhi1234</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">学习总结 思考感悟 知识管理</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/about">关于博主</a></li>
+                
+                    <li><a href="/site">常用网站</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="/simplecoder0910@163.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/wuzhi1234" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="https://www.zhihu.com/people/xia-ri-qiu-shuang/activities" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/u/1732515320" title="weibo">weibo</a>
+                    
+                        <a class="douban" target="_blank" href="https://www.douban.com/people/42144253/" title="douban">douban</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Mac安装Hive1.2.1" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/08/Mac安装Hive1.2.1/" class="article-date">
+      <time datetime="2015-10-08T05:43:16.000Z" itemprop="datePublished">2015-10-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mac安装Hive1.2.1
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop/">Hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/">Hive</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>这几天在折腾Hive的相关东西，所以打算在自己的机器上安装下Hive，可是按照教程总是出这样那样的错误，着实蛋疼，最终发现错误是我的Mysql端口是3307，WTF。。这个问题已经坑了我几次了。在此把查看Mysql开启端口的命令放这，以后别被坑到了。<code>SHOW GLOBAL VARIABLES LIKE &#39;PORT&#39;;</code><br><a id="more"></a><br>下面为完整安装Hive的全过程</p>
+<h2 id="安装MySQL服务器端和MySQL客户端-并启动MySQL服务"><a href="#安装MySQL服务器端和MySQL客户端-并启动MySQL服务" class="headerlink" title="安装MySQL服务器端和MySQL客户端,并启动MySQL服务"></a>安装MySQL服务器端和MySQL客户端,并启动MySQL服务</h2><p>这个就不用说了，Mac下下载Mysql的DMG安装包安装即可</p>
+<h2 id="为Hive建立相应的MySQL账户-并赋予足够的权限"><a href="#为Hive建立相应的MySQL账户-并赋予足够的权限" class="headerlink" title="为Hive建立相应的MySQL账户,并赋予足够的权限"></a>为Hive建立相应的MySQL账户,并赋予足够的权限</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hadoop@ubuntu:~$ mysql -uroot -pmysql</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> CREATE USER <span class="string">'hive'</span> IDENTIFIED BY <span class="string">'mysql'</span>;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> GRANT ALL PRIVILEGES ON *.* TO <span class="string">'hive'</span>@<span class="string">'%'</span> WITH GRANT OPTION;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> flush privileges;</span></span><br></pre></td></tr></table></figure>
+<h2 id="建立-Hive-专用的元数据库，记得创建时用刚才创建的“hive”账号登陆"><a href="#建立-Hive-专用的元数据库，记得创建时用刚才创建的“hive”账号登陆" class="headerlink" title="建立 Hive 专用的元数据库，记得创建时用刚才创建的“hive”账号登陆"></a>建立 Hive 专用的元数据库，记得创建时用刚才创建的“hive”账号登陆</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mysql -uhive -pmysql</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> create database hive;</span></span><br></pre></td></tr></table></figure>
+<h2 id="把MySQL的JDBC驱动包复制到Hive的lib目录下"><a href="#把MySQL的JDBC驱动包复制到Hive的lib目录下" class="headerlink" title="把MySQL的JDBC驱动包复制到Hive的lib目录下"></a>把MySQL的JDBC驱动包复制到Hive的lib目录下</h2><p>JDBC驱动包的版本:mysql-connector-java-5.1.26-bin.jar</p>
+<h2 id="安装Hadoop"><a href="#安装Hadoop" class="headerlink" title="安装Hadoop"></a>安装Hadoop</h2><p>这个我之前有博文专门介绍了，坑也挺多，注意安装</p>
+<h2 id="安装Hive"><a href="#安装Hive" class="headerlink" title="安装Hive"></a>安装Hive</h2><ol>
+<li>在Hive的官网下载Hive1.2.1的压缩包</li>
+<li>解压缩到<code>/usr/local/Cellar/hive</code>文件夹中</li>
+<li><p>修改配置文件<code>sudo vi /etc/profile</code>  添加</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line"><span class="attribute">HIVE_HOME</span>=/usr/local/Cellar/hive</span><br><span class="line"><span class="attribute">PATH</span>=<span class="variable">$PATH</span>:$HIVE_HOME/bin</span><br><span class="line"><span class="builtin-name">export</span> PATH</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>切换到conf目录下<code>cd /usr/local/Cellar/hive/conf</code></p>
+</li>
+<li><p>修改Hive的xml配置<br>把几个带.template后缀的模板文件，复制一份变成不带.template的配置文件，注意hive-default.xml.template这个要复制二份，一个是hive-default.xml，另一个是hive-site.xml，其中hive-site.xml为用户自定义配置，hive-default.xml为全局配置，hive启动时，-site.xml自定义配置会覆盖-default.xml全局配置的相同配置项。</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">cp hive-default<span class="selector-class">.xml</span><span class="selector-class">.template</span> hive-default.xml</span><br><span class="line">cp hive-default<span class="selector-class">.xml</span><span class="selector-class">.template</span> hive-site.xml</span><br><span class="line">cp hive-exec-log4j<span class="selector-class">.properties</span><span class="selector-class">.template</span> hive-exec-log4j.properties</span><br><span class="line">cp hive-log4j<span class="selector-class">.properties</span><span class="selector-class">.template</span> hive-log4j.properties</span><br><span class="line">cp beeline-log4j<span class="selector-class">.properties</span><span class="selector-class">.template</span> beeline-log4j.properties</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改hive-site.xml<br>下面的配置文件中，有一些关于目录的参数，先提前把目录建好，</p>
+</li>
+</ol>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">hive<span class="selector-class">.exec</span><span class="selector-class">.local</span><span class="selector-class">.scratchdir</span></span><br><span class="line">hive<span class="selector-class">.downloaded</span><span class="selector-class">.resources</span><span class="selector-class">.dir</span></span><br></pre></td></tr></table></figure>
+<p>这二项对应的目录，是指本地目录（必须先手动建好），其它目录为hdfs中的目录（hive启动时，先自动建好，如果自动创建失败，也可以手动通过shell在hdfs中创建）</p>
+<figure class="highlight dust"><table><tr><td class="code"><pre><span class="line"><span class="xml"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span> standalone=<span class="string">"no"</span><span class="meta">?&gt;</span></span></span></span><br><span class="line"><span class="xml"><span class="php"><span class="meta">&lt;?</span>xml-stylesheet type=<span class="string">"text/xsl"</span> href=<span class="string">"configuration.xsl"</span><span class="meta">?&gt;</span></span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.local<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">   <span class="comment">&lt;!-- </span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:postgresql://localhost:5432/hive<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.postgresql.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    --&gt;</span></span><br><span class="line"><span class="xml">   </span></span><br><span class="line"><span class="xml">   </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://127.0.0.1:3307/hive?characterEncoding=UTF-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hive<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">   </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.exec.scratchdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/tmp/hive<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.exec.local.scratchdir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/local/Cellar/hive/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.downloaded.resources.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/local/Cellar/hive/tmp/$</span><span class="template-variable">&#123;hive.session.id&#125;</span><span class="xml">_resources<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.metastore.warehouse.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/user/hive/warehouse<span class="tag">&lt;/<span class="name">value</span>&gt;</span>    </span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="替换hadoop-2-6-0中的jline-jar包"><a href="#替换hadoop-2-6-0中的jline-jar包" class="headerlink" title="替换hadoop 2.6.0中的jline jar包"></a>替换hadoop 2.6.0中的jline jar包</h2><p>  由于hive 1.2.0自带的jline包跟hadoop 2.6.0自带的版本不一致，因此需要将$HIVE_HOME/lib/jline-2.12.jar 这个文件替换掉$HADOOP_HOME/share/hadoop/yarn/lib 下原来的版本 （即：将旧版本删除，复制新版本到此目录），否则hive启动将失败.即将hive中的jar包复制到hadoop的对应目录下，重新启动Hadoop</p>
+<h2 id="测试验证，输入hive查看是否运行正常"><a href="#测试验证，输入hive查看是否运行正常" class="headerlink" title="测试验证，输入hive查看是否运行正常"></a>测试验证，输入hive查看是否运行正常</h2><p><code>$HIVE_HOME/bin/hive</code></p>
+<p>如果能正常进入 hive&gt; 即表示正常</p>
+<ol>
+<li>创建表测试<br>hive&gt;create table test(id int);</li>
+<li>将hdfs中的文件内容加载到表中<br><code>hive&gt; load data inpath &#39;/user/Gao/input/duplicate.txt&#39; into table 测试;</code></li>
+<li>测试求平均值</li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">hive&gt; select avg(<span class="built_in">id</span>) <span class="keyword">from</span> 测试;</span><br><span class="line"></span><br><span class="line">Query ID = jimmy_20150607191924_ccfb231f<span class="number">-6</span>c92<span class="number">-47</span>ac<span class="number">-88</span>f1-eb32882a0010</span><br><span class="line"></span><br><span class="line">Total jobs = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">Launching Job <span class="number">1</span> <span class="keyword">out of</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">Number <span class="keyword">of</span> reduce tasks determined <span class="keyword">at</span> compile <span class="built_in">time</span>: <span class="number">1</span></span><br><span class="line"></span><br><span class="line">In order <span class="keyword">to</span> change <span class="keyword">the</span> average load <span class="keyword">for</span> a reducer (<span class="keyword">in</span> bytes):</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> hive.exec.reducers.bytes.per.reducer=&lt;<span class="built_in">number</span>&gt;</span><br><span class="line"></span><br><span class="line">In order <span class="keyword">to</span> limit <span class="keyword">the</span> maximum <span class="built_in">number</span> <span class="keyword">of</span> reducers:</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> hive.exec.reducers.max=&lt;<span class="built_in">number</span>&gt;</span><br><span class="line"></span><br><span class="line">In order <span class="keyword">to</span> <span class="keyword">set</span> a <span class="built_in">constant</span> <span class="built_in">number</span> <span class="keyword">of</span> reducers:</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> mapreduce.job.reduces=&lt;<span class="built_in">number</span>&gt;</span><br><span class="line"></span><br><span class="line">Job <span class="built_in">running</span> <span class="keyword">in</span>-process (<span class="keyword">local</span> Hadoop)</span><br><span class="line"></span><br><span class="line"><span class="number">2015</span><span class="number">-06</span><span class="number">-07</span> <span class="number">19</span>:<span class="number">19</span>:<span class="number">27</span>,<span class="number">980</span> Stage<span class="number">-1</span> map = <span class="number">100</span>%,  reduce = <span class="number">100</span>%</span><br><span class="line"></span><br><span class="line">Ended Job = job_local1537497991_0001</span><br><span class="line"></span><br><span class="line">MapReduce Jobs Launched: </span><br><span class="line"></span><br><span class="line">Stage-Stage<span class="number">-1</span>:  HDFS Read: <span class="number">190</span> HDFS Write: <span class="number">0</span> SUCCESS</span><br><span class="line"></span><br><span class="line">Total MapReduce CPU Time Spent: <span class="number">0</span> msec</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line"><span class="number">3.909090909090909</span></span><br><span class="line"></span><br><span class="line">Time taken: <span class="number">3.322</span> seconds, Fetched: <span class="number">1</span> row(s)</span><br></pre></td></tr></table></figure>
+<p>从输出的信息看，hive底层仍然是将SQL语句翻译成mapreduce作业，提交给hadoop的MR引擎。从使用层面看，采用SQL语句方式来分析数据，确实比MapReduce或PIG方式方便太多了</p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>纯属好玩</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2015/10/08/Mac安装Hive1.2.1/">Mac安装Hive1.2.1</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 wuzhi1234 的个人博客">wuzhi1234</a></p>
+        <p><span>发布时间:</span>2015年10月08日 - 13时43分</p>
+        <p><span>最后更新:</span>2016年07月21日 - 23时10分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2015/10/08/Mac安装Hive1.2.1/" title="Mac安装Hive1.2.1">http://gaojingbao.me/2015/10/08/Mac安装Hive1.2.1/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaojingbao.me/2015/10/08/Mac安装Hive1.2.1/　　作者: wuzhi1234" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/07/21/《程序员的职业素养》的读书心得/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          《程序员的职业素养》的读书心得
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/09/02/推荐系统算法介绍/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">推荐系统算法介绍</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装MySQL服务器端和MySQL客户端-并启动MySQL服务"><span class="toc-number">1.</span> <span class="toc-text">安装MySQL服务器端和MySQL客户端,并启动MySQL服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为Hive建立相应的MySQL账户-并赋予足够的权限"><span class="toc-number">2.</span> <span class="toc-text">为Hive建立相应的MySQL账户,并赋予足够的权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立-Hive-专用的元数据库，记得创建时用刚才创建的“hive”账号登陆"><span class="toc-number">3.</span> <span class="toc-text">建立 Hive 专用的元数据库，记得创建时用刚才创建的“hive”账号登陆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#把MySQL的JDBC驱动包复制到Hive的lib目录下"><span class="toc-number">4.</span> <span class="toc-text">把MySQL的JDBC驱动包复制到Hive的lib目录下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Hadoop"><span class="toc-number">5.</span> <span class="toc-text">安装Hadoop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Hive"><span class="toc-number">6.</span> <span class="toc-text">安装Hive</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#替换hadoop-2-6-0中的jline-jar包"><span class="toc-number">7.</span> <span class="toc-text">替换hadoop 2.6.0中的jline jar包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试验证，输入hive查看是否运行正常"><span class="toc-number">8.</span> <span class="toc-text">测试验证，输入hive查看是否运行正常</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2015/10/08/Mac安装Hive1.2.1/" data-title="Mac安装Hive1.2.1" data-url="http://gaojingbao.me/2015/10/08/Mac安装Hive1.2.1/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"gaojingbao"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/07/21/《程序员的职业素养》的读书心得/" title="上一篇: 《程序员的职业素养》的读书心得">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2015/09/02/推荐系统算法介绍/" title="下一篇: 推荐系统算法介绍">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/Git的各种回滚文件/">Git的各种回滚文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/《程序员的职业素养》的读书心得/">《程序员的职业素养》的读书心得</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/08/Mac安装Hive1.2.1/">Mac安装Hive1.2.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/02/推荐系统算法介绍/">推荐系统算法介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/01/满二叉树和完全二叉树/">满二叉树和完全二叉树</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/31/实现Queue接口的LinkedList类/">实现Queue接口的LinkedList类</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/28/两场面试/">两场面试</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/20/设计模式总结/">设计模式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/17/MapReduce运行机制/">MapReduce运行机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/15/动态绑定/">动态绑定</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/12/垃圾收集器/">垃圾收集器</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/WordCount处理过程详解/">WordCount处理过程详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/11/HotSpot的算法实现/">HotSpot的算法实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/垃圾收集算法/">垃圾收集算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/10/对象已死/">对象已死？</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/06/Mahout安装与配置/">Mahout的安装与配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/Java内存管理原理学习笔记/">Java内存管理原理学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/05/各大家族汽车谱系/">各大家族汽车谱系</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/03/OS X10.10安装hadoop2.6.0/">OS X10.10安装hadoop2.6.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/03/Hello World/">Hello World</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 wuzhi1234
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
